@@ -1,0 +1,131 @@
+<body style="background-color: black; color: white; font-family: georgia">
+    <h1 style="color: #29b00e">Programmable Super-Secret Passcode Protected Image Safe</h1>
+    <h2 style="color: #29b00e">Welcome to the <a href="https://en.wikipedia.org/wiki/Safe">safe</a>, wanderer</h2>
+    <p style="color: #29b00e" id="instructions">Enter the url of the image that you wish to protect with your blood, sweat and tears...</p>
+    <center>
+    <input oninput="InputImageUrl()" id="imgUrlInput" style="color: white; background-color: #2b2b2a; width: 200px; height: 25; font-size:13px;" type="text" placeholder="Your precious image: https://...">
+    <br/>
+    <br/>
+    <input type="password" id="passcodeInput" style="color: white; background-color: #2b2b2a; width: 200px; height: 25; font-size:16px;" type="text" placeholder="Passcode" readonly>
+    <br/>
+    <br/>
+ 
+    <button onclick="Btn1()" id="btn-1" style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">1</button>
+    <button onclick="Btn2()"  id="btn-2"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">2</button>
+    <button onclick="Btn3()"  id="btn-3"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">3</button>
+    <br/>
+    <button onclick="Btn4()"  id="btn-4"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">4</button>
+    <button onclick="Btn5()"  id="btn-5"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">5</button>
+    <button onclick="Btn6()"  id="btn-6"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">6</button>
+    <br/>
+    <button onclick="Btn7()"  id="btn-7"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">7</button>
+    <button onclick="Btn8()"  id="btn-8"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">8</button>
+    <button onclick="Btn9()"  id="btn-9"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">9</button>
+    <br/>
+    <button onclick="Btn0()"  id="btn-0"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">0</button>
+    <button onclick="Clear()" style="font-size: 25px; background-color: red; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">C</button>
+    <br/>
+    <br/>
+    <button onclick="Lock()" id="lockButton" style="width: 110px; font-weight: bold; font-size: 18px; background-color: orange; height:45px; color: white" type="button">Lock</button>
+    <button onclick="Unlock()" id="unlockButton" style="width: 110px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: #29b00e; height:45px; color: white" type="button">Unlock</button>
+    <br/>
+    <img id="saved-img">
+    </center>
+    <br/>
+ </body>
+ 
+ <script>
+    var imgUrl = document.getElementById("imgUrlInput")
+    var passcode = document.getElementById("passcodeInput")
+    var savedPasscode = ""
+    
+    var triesLeft = 4
+ 
+ 
+     function Lock()
+     {
+         if(passcode.value.length < 4 || passcode.value.length > 10)
+         {
+             alert("Please input a passcode between 4 and 10 characters")
+             return
+         }
+         if(imgUrl.value == "")
+         {
+             alert("Please input a URL")
+             return
+         }
+ 
+         savedPasscode = passcode.value
+         alert(savedPasscode)
+         passcode.value = ""
+         document.getElementById("saved-img").style.visibility = "hidden"
+         document.getElementById("lockButton").style.visibility = "hidden"
+         document.getElementById("unlockButton").style.visibility = "visible"
+         document.getElementById("imgUrlInput").style.visibility = "hidden"
+         document.getElementById("instructions").innerHTML = "Please input the passcode..."
+         triesLeft = 4
+     }
+ 
+     function Unlock()
+     {
+         if(passcode.value == savedPasscode)
+         {
+             document.getElementById("saved-img").style.visibility = "visible"
+ 
+             document.getElementById("lockButton").style.visibility = "visible"
+             document.getElementById("unlockButton").style.visibility = "hidden"
+             document.getElementById("imgUrlInput").style.visibility = "visible"
+             document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears..."
+             alert("Correct!")
+         }
+         else
+         {
+             triesLeft--
+             if(triesLeft > 0)
+             alert("Wrong! Attempts left: " + triesLeft)
+             if(triesLeft <= 0)
+             {
+                 alert("Too many wrong tries! Self-destructing...Goodbye!")
+                 
+                 savedPasscode = ""
+                 document.getElementById("saved-img").src = ""
+                 
+ 
+                 document.getElementById("saved-img").style.visibility = "visible"
+ 
+                 document.getElementById("lockButton").style.visibility = "visible"
+                 document.getElementById("unlockButton").style.visibility = "hidden"
+                 document.getElementById("imgUrlInput").style.visibility = "visible"
+                 document.getElementById("imgUrlInput").value = ""
+                 document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears..."
+  
+             }
+         }
+     }
+ 
+     function InputImageUrl()
+     {
+         document.getElementById("saved-img").src = imgUrl.value
+     }
+ 
+     function Btn0() {document.getElementById("passcodeInput").value += "0"}
+     function Btn1() {document.getElementById("passcodeInput").value += "1"}
+     function Btn2() {document.getElementById("passcodeInput").value += "2"}
+     function Btn3() {document.getElementById("passcodeInput").value += "3"}
+     function Btn4() {document.getElementById("passcodeInput").value += "4"}
+     function Btn5() {document.getElementById("passcodeInput").value += "5"}
+     function Btn6() {document.getElementById("passcodeInput").value += "6"}
+     function Btn7() {document.getElementById("passcodeInput").value += "7"}
+     function Btn8() {document.getElementById("passcodeInput").value += "8"}
+     function Btn9() {document.getElementById("passcodeInput").value += "9"}
+ 
+     function Clear()
+     {
+         document.getElementById("passcodeInput").value = ""
+     }
+ 
+ 
+    </script>
+ 
+ 
+ 
