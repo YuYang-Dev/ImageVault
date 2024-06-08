@@ -3,12 +3,12 @@
     <h1 style="color: #29b00e">Programmable Super-Secret Passcode Protected Image Safe</h1>
     <h2 style="color: #29b00e">Welcome to the <a href="https://en.wikipedia.org/wiki/Safe">safe</a>, wanderer.</h2>
     <p style="color: #29b00e" id="instructions">Enter the url of the image that you wish to protect with your blood, sweat and tears...</p>
-    <p style="color: #29b00e">Input a passcode between 4-10 characters with the number pad</p>
+    <p id="extraInstructions" style="color: #29b00e">Input a passcode between 4-10 characters with the number pad</p>
     <center>
     <input oninput="InputImageUrl()" id="imgUrlInput" style="color: white; background-color: #2b2b2a; width: 200px; height: 25; font-size:13px;" type="text" placeholder="Your precious image: https://...">
     <br/>
 
-    <h2 style="color: #29b00e">OR...</h2>
+    <h2 id="OR" style="color: #29b00e">OR...</h2>
 
     <label id="imageUploadInstructions" style="height: 25px; width: 200px; cursor: pointer; display: block; background-color: #29b00e; color: white"
      for="image-upload">Upload an image...</label>
@@ -42,21 +42,23 @@
     <br/>
     <img id="saved-img">
     <br/>
-    <button onclick="Clear()" id="clearButton" style="width: 220px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: red; height:45px; color: white" type="button">Clear</button>
+    <button id="clearButton" style="width: 220px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: red; height:45px; color: white" type="button">Clear</button>
     </center>
     <br/>
  </body>
  
  <script>
 
-    var imgUrl = document.getElementById("imgUrlInput")
+    var imgUrl = document.getElementById("imgUrlInput");
 
-    var passcode = document.getElementById("passcodeInput")
-    var savedPasscode = ""
-    var uploadedImgInstructions = document.getElementById("uploadedImgInstructions");
-    var uploadedImg = document.getElementById("image-upload")
-    var savedImg = document.getElementById("saved-img")
-    var clearButton = document.getElementById("clearButton")
+    var passcode = document.getElementById("passcodeInput");
+    var savedPasscode = "";
+    var uploadedImgInstructions = document.getElementById("imageUploadInstructions");
+    var OR = document.getElementById("OR");
+
+    var uploadedImg = document.getElementById("image-upload");
+    var savedImg = document.getElementById("saved-img");
+    var clearButton = document.getElementById("clearButton");
 
     var lockButton = document.getElementById("lockButton");
     var unlockButton = document.getElementById("unlockButton");
@@ -77,18 +79,20 @@
              return
          }
  
-         savedPasscode = passcode.value
-         alert("Your password: " + savedPasscode)
-         passcode.value = ""
-         savedImg.style.visibility = "hidden"
-         lockButton.style.visibility = "hidden"
-         unlockButton.style.visibility = "visible"
-         uploadedImgInstructions.style.visibility = "hidden"
-         uploadedImg.style.visibility = "hidden"
-         clearButton.style.visibility = "hidden"
+         savedPasscode = passcode.value;
+         alert("Your password: " + savedPasscode);
+         passcode.value = "";
+         savedImg.style.visibility = "hidden";
+         lockButton.style.visibility = "hidden";
+         unlockButton.style.visibility = "visible";
+         uploadedImgInstructions.style.visibility = "hidden";
+         uploadedImg.style.visibility = "hidden";
+         clearButton.style.visibility = "hidden";
+         OR.style.visibility = "hidden";
+         document.getElementById("extraInstructions").style.visibility = "hidden";
          
-         document.getElementById("imgUrlInput").style.visibility = "hidden"
-         document.getElementById("instructions").innerHTML = "Please input the passcode..."
+         document.getElementById("imgUrlInput").style.visibility = "hidden";
+         document.getElementById("instructions").innerHTML = "Please input the passcode...";
          triesLeft = 4
      }
  
@@ -96,16 +100,18 @@
      {
          if(passcode.value == savedPasscode)
          {
-            savedImg.style.visibility = "visible"
+            savedImg.style.visibility = "visible";
  
-             lockButton.style.visibility = "visible"
-             unlockButton.style.visibility = "hidden"
-             uploadedImgInstructions.style.visibility = "visible"
-             uploadedImg.style.visibility = "visible"
+             lockButton.style.visibility = "visible";
+             unlockButton.style.visibility = "hidden";
+             uploadedImgInstructions.style.visibility = "visible";
+             uploadedImg.style.visibility = "visible";
              clearButton.style.visibility = "visible";
+             OR.style.visibility = "visible"
+             document.getElementById("extraInstructions").style.visibility = "visible"
 
-             document.getElementById("imgUrlInput").style.visibility = "visible"
-             document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears..."
+             document.getElementById("imgUrlInput").style.visibility = "visible";
+             document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears...";
              alert("Correct!")
          }
          else
@@ -115,23 +121,25 @@
              alert("Wrong! Attempts left: " + triesLeft)
              if(triesLeft <= 0)
              {
-                 alert("Too many wrong tries! Self-destructing...Goodbye!")
+                 alert("Too many wrong tries! Self-destructing...Goodbye!");
                  
-                 savedPasscode = ""
-                 savedImg.src = ""
+                 savedPasscode = "";
+                 savedImg.src = "";
                  
  
-                 savedImg.style.visibility = "visible"
+                 savedImg.style.visibility = "visible";
  
-                 lockButton.style.visibility = "visible"
-                 unlockButton.style.visibility = "hidden"
-                 unlockButton.style.visibility = "hidden"
-                 uploadedImgInstructions.style.visibility = "visible"
+                 lockButton.style.visibility = "visible";
+                 unlockButton.style.visibility = "hidden";
+                 unlockButton.style.visibility = "hidden";
+                 uploadedImgInstructions.style.visibility = "visible";
                  clearButton.style.visibility = "visible";
+                 OR.style.visibility = "visible"
+                 document.getElementById("extraInstructions").style.visibility = "visible"
 
-                 document.getElementById("imgUrlInput").style.visibility = "visible"
-                 document.getElementById("imgUrlInput").value = ""
-                 document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears..."
+                 document.getElementById("imgUrlInput").style.visibility = "visible";
+                 document.getElementById("imgUrlInput").value = "";
+                 document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears...";
   
              }
          }
@@ -139,52 +147,54 @@
  
      function InputImageUrl()
      {
-        savedImg.src = imgUrl.value
-        if(savedImg.src != "")
+        savedImg.src = imgUrl.value;
+        if(imgUrl.value != "")
         {
-            clearButton.style.visibility = "visible"
+            clearButton.style.visibility = "visible";
         }
         else
         {
-            clearButton.style.visibility = "hidden"
+            clearButton.style.visibility = "hidden";
         }
      }
 
      document.getElementById("image-upload").onchange = function()
      {
-        savedImg.src = URL.createObjectURL(uploadedImg.files[0])
-        if(savedImg.src != "")
+        if(savedImg.src == "")
         {
-            clearButton.style.visibility = "visible"
+            savedImg.src = URL.createObjectURL(uploadedImg.files[0]);
+            clearButton.style.visibility = "visible";
+            //clearButton.style.visibility = "hidden";
         }
         else
         {
-            clearButton.style.visibility = "hidden"
+            alert("Please clear the URL input before uploading an image.");
+            //clearButton.style.visibility = "visible";
+            clearButton.style.visibility = "hidden";
         }
      }
 
-    clearButton.onclick = function()
+    clearButton.onclick = function() // clear img
     {
-        savedImg.src = ""
-        clearButton.style.visibility = "hidden"
+        savedImg.src = "";
+        clearButton.style.visibility = "hidden";
     }
- 
-     function Btn0() {document.getElementById("passcodeInput").value += "0"}
-     function Btn1() {document.getElementById("passcodeInput").value += "1"}
-     function Btn2() {document.getElementById("passcodeInput").value += "2"}
-     function Btn3() {document.getElementById("passcodeInput").value += "3"}
-     function Btn4() {document.getElementById("passcodeInput").value += "4"}
-     function Btn5() {document.getElementById("passcodeInput").value += "5"}
-     function Btn6() {document.getElementById("passcodeInput").value += "6"}
-     function Btn7() {document.getElementById("passcodeInput").value += "7"}
-     function Btn8() {document.getElementById("passcodeInput").value += "8"}
-     function Btn9() {document.getElementById("passcodeInput").value += "9"}
- 
-     function Clear()
+
+    function Clear() // Clear passcode input
      {
          document.getElementById("passcodeInput").value = ""
      }
  
+     function Btn0() {document.getElementById("passcodeInput").value += "0";}
+     function Btn1() {document.getElementById("passcodeInput").value += "1";}
+     function Btn2() {document.getElementById("passcodeInput").value += "2";}
+     function Btn3() {document.getElementById("passcodeInput").value += "3";}
+     function Btn4() {document.getElementById("passcodeInput").value += "4";}
+     function Btn5() {document.getElementById("passcodeInput").value += "5";}
+     function Btn6() {document.getElementById("passcodeInput").value += "6";}
+     function Btn7() {document.getElementById("passcodeInput").value += "7";}
+     function Btn8() {document.getElementById("passcodeInput").value += "8";}
+     function Btn9() {document.getElementById("passcodeInput").value += "9";}
  
     </script>
  
