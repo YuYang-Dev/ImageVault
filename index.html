@@ -1,12 +1,23 @@
+<html>
 <body style="background-color: black; color: white; font-family: georgia">
     <h1 style="color: #29b00e">Programmable Super-Secret Passcode Protected Image Safe</h1>
-    <h2 style="color: #29b00e">Welcome to the <a href="https://en.wikipedia.org/wiki/Safe">safe</a>, wanderer</h2>
+    <h2 style="color: #29b00e">Welcome to the <a href="https://en.wikipedia.org/wiki/Safe">safe</a>, wanderer.</h2>
     <p style="color: #29b00e" id="instructions">Enter the url of the image that you wish to protect with your blood, sweat and tears...</p>
+    <p style="color: #29b00e">Input a passcode between 4-10 characters with the number pad</p>
     <center>
     <input oninput="InputImageUrl()" id="imgUrlInput" style="color: white; background-color: #2b2b2a; width: 200px; height: 25; font-size:13px;" type="text" placeholder="Your precious image: https://...">
     <br/>
+
+    <h2 style="color: #29b00e">OR...</h2>
+
+    <label id="imageUploadInstructions" style="height: 25px; width: 200px; cursor: pointer; display: block; background-color: #29b00e; color: white"
+     for="image-upload">Upload an image...</label>
+    <input style="display: none" type="file" accept="image/jpeg, image/png, image/jpg" id="image-upload">
     <br/>
-    <input type="password" id="passcodeInput" style="color: white; background-color: #2b2b2a; width: 200px; height: 25; font-size:16px;" type="text" placeholder="Passcode" readonly>
+    <br/>
+
+    <input type="password" id="passcodeInput" style="color: white; background-color: #2b2b2a; width: 200px; height: 25; font-size:16px;" type="text"
+     placeholder="Passcode" readonly>
     <br/>
     <br/>
  
@@ -25,19 +36,30 @@
     <button onclick="Btn0()"  id="btn-0"  style="font-size: 25px; background-color: #29b00e; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">0</button>
     <button onclick="Clear()" style="font-size: 25px; background-color: red; color: white; font-weight: bold; width: 70px; height: 65px;" type="button">C</button>
     <br/>
-    <br/>
     <button onclick="Lock()" id="lockButton" style="width: 110px; font-weight: bold; font-size: 18px; background-color: orange; height:45px; color: white" type="button">Lock</button>
     <button onclick="Unlock()" id="unlockButton" style="width: 110px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: #29b00e; height:45px; color: white" type="button">Unlock</button>
     <br/>
+    <br/>
     <img id="saved-img">
+    <br/>
+    <button onclick="Clear()" id="clearButton" style="width: 220px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: red; height:45px; color: white" type="button">Clear</button>
     </center>
     <br/>
  </body>
  
  <script>
+
     var imgUrl = document.getElementById("imgUrlInput")
+
     var passcode = document.getElementById("passcodeInput")
     var savedPasscode = ""
+    var uploadedImgInstructions = document.getElementById("uploadedImgInstructions");
+    var uploadedImg = document.getElementById("image-upload")
+    var savedImg = document.getElementById("saved-img")
+    var clearButton = document.getElementById("clearButton")
+
+    var lockButton = document.getElementById("lockButton");
+    var unlockButton = document.getElementById("unlockButton");
     
     var triesLeft = 4
  
@@ -49,7 +71,7 @@
              alert("Please input a passcode between 4 and 10 characters")
              return
          }
-         if(imgUrl.value == "")
+         if(imgUrl.value == "" && savedImg.src == "")
          {
              alert("Please input a URL")
              return
@@ -58,9 +80,13 @@
          savedPasscode = passcode.value
          alert("Your password: " + savedPasscode)
          passcode.value = ""
-         document.getElementById("saved-img").style.visibility = "hidden"
-         document.getElementById("lockButton").style.visibility = "hidden"
-         document.getElementById("unlockButton").style.visibility = "visible"
+         savedImg.style.visibility = "hidden"
+         lockButton.style.visibility = "hidden"
+         unlockButton.style.visibility = "visible"
+         uploadedImgInstructions.style.visibility = "hidden"
+         uploadedImg.style.visibility = "hidden"
+         clearButton.style.visibility = "hidden"
+         
          document.getElementById("imgUrlInput").style.visibility = "hidden"
          document.getElementById("instructions").innerHTML = "Please input the passcode..."
          triesLeft = 4
@@ -70,10 +96,14 @@
      {
          if(passcode.value == savedPasscode)
          {
-             document.getElementById("saved-img").style.visibility = "visible"
+            savedImg.style.visibility = "visible"
  
-             document.getElementById("lockButton").style.visibility = "visible"
-             document.getElementById("unlockButton").style.visibility = "hidden"
+             lockButton.style.visibility = "visible"
+             unlockButton.style.visibility = "hidden"
+             uploadedImgInstructions.style.visibility = "visible"
+             uploadedImg.style.visibility = "visible"
+             clearButton.style.visibility = "visible";
+
              document.getElementById("imgUrlInput").style.visibility = "visible"
              document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears..."
              alert("Correct!")
@@ -88,13 +118,17 @@
                  alert("Too many wrong tries! Self-destructing...Goodbye!")
                  
                  savedPasscode = ""
-                 document.getElementById("saved-img").src = ""
+                 savedImg.src = ""
                  
  
-                 document.getElementById("saved-img").style.visibility = "visible"
+                 savedImg.style.visibility = "visible"
  
-                 document.getElementById("lockButton").style.visibility = "visible"
-                 document.getElementById("unlockButton").style.visibility = "hidden"
+                 lockButton.style.visibility = "visible"
+                 unlockButton.style.visibility = "hidden"
+                 unlockButton.style.visibility = "hidden"
+                 uploadedImgInstructions.style.visibility = "visible"
+                 clearButton.style.visibility = "visible";
+
                  document.getElementById("imgUrlInput").style.visibility = "visible"
                  document.getElementById("imgUrlInput").value = ""
                  document.getElementById("instructions").innerHTML = "Enter the url of the image that you wish to protect with your blood, sweat and tears..."
@@ -105,8 +139,35 @@
  
      function InputImageUrl()
      {
-         document.getElementById("saved-img").src = imgUrl.value
+        savedImg.src = imgUrl.value
+        if(savedImg.src != "")
+        {
+            clearButton.style.visibility = "visible"
+        }
+        else
+        {
+            clearButton.style.visibility = "hidden"
+        }
      }
+
+     document.getElementById("image-upload").onchange = function()
+     {
+        savedImg.src = URL.createObjectURL(uploadedImg.files[0])
+        if(savedImg.src != "")
+        {
+            clearButton.style.visibility = "visible"
+        }
+        else
+        {
+            clearButton.style.visibility = "hidden"
+        }
+     }
+
+    clearButton.onclick = function()
+    {
+        savedImg.src = ""
+        clearButton.style.visibility = "hidden"
+    }
  
      function Btn0() {document.getElementById("passcodeInput").value += "0"}
      function Btn1() {document.getElementById("passcodeInput").value += "1"}
@@ -127,5 +188,5 @@
  
     </script>
  
- 
+</html>
  
