@@ -10,7 +10,7 @@
 
     <h2 id="OR" style="color: #29b00e">OR...</h2>
 
-    <label id="imageUploadInstructions" style="height: 25px; width: 200px; cursor: pointer; display: block; background-color: #29b00e; color: white"
+    <label id="imageUploadInstructions" style="height: 25px; width: 200px; cursor: pointer; display: block; background-color: #392bff; color: white"
      for="image-upload">Upload an image...</label>
     <input style="display: none" type="file" accept="image/jpeg, image/png, image/jpg" id="image-upload">
     <br/>
@@ -39,10 +39,10 @@
     <button onclick="Lock()" id="lockButton" style="width: 110px; font-weight: bold; font-size: 18px; background-color: orange; height:45px; color: white" type="button">Lock</button>
     <button onclick="Unlock()" id="unlockButton" style="width: 110px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: #29b00e; height:45px; color: white" type="button">Unlock</button>
     <br/>
+    <button id="clearButton" style="width: 220px; font-weight: bold; font-size: 18px; background-color: red; height:45px; color: white" type="button">Clear Image</button>
     <br/>
     <img id="saved-img">
     <br/>
-    <button id="clearButton" style="width: 220px; font-weight: bold; visibility: hidden; font-size: 18px; background-color: red; height:45px; color: white" type="button">Clear</button>
     </center>
     <br/>
  </body>
@@ -125,7 +125,7 @@
                  
                  savedPasscode = "";
                  savedImg.src = "";
-                 
+                 uploadedImg.value = "";
  
                  savedImg.style.visibility = "visible";
  
@@ -148,36 +148,38 @@
      function InputImageUrl()
      {
         savedImg.src = imgUrl.value;
-        if(imgUrl.value != "")
+        /*
+        if(uploadedImg.value.length <= 0)
         {
-            clearButton.style.visibility = "visible";
+            savedImg.src = imgUrl.value;
         }
         else
         {
-            clearButton.style.visibility = "hidden";
+            alert("Please clear the image first");
         }
+            */
      }
 
      document.getElementById("image-upload").onchange = function()
      {
-        if(savedImg.src == "")
+        savedImg.src = URL.createObjectURL(uploadedImg.files[0]);
+        /*
+        if(imgUrl.value.length <= 0)
         {
             savedImg.src = URL.createObjectURL(uploadedImg.files[0]);
-            clearButton.style.visibility = "visible";
-            //clearButton.style.visibility = "hidden";
         }
         else
         {
-            alert("Please clear the URL input before uploading an image.");
-            //clearButton.style.visibility = "visible";
-            clearButton.style.visibility = "hidden";
+            alert("Please clear the image first");
         }
+            */
      }
 
     clearButton.onclick = function() // clear img
     {
+        imgUrl.value = "";
         savedImg.src = "";
-        clearButton.style.visibility = "hidden";
+        uploadedImg.value = "";
     }
 
     function Clear() // Clear passcode input
